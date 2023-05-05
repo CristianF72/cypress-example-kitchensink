@@ -40,6 +40,13 @@ context('Actions', () => {
       .prev().should('have.attr', 'style', 'color: orange;')
   })
 
+  it.only('.focus() - focus on a DOM element - ANOTHER WAY', () => {
+    // https://on.cypress.io/focus
+    cy.get('input[placeholder=Password]').focus()
+      .should('have.class', 'focus')
+      .prev().should('have.attr', 'style', 'color: orange;')
+  })
+
   it('.blur() - blur off a DOM element', () => {
     // https://on.cypress.io/blur
     cy.get('.action-blur').type('About to blur').blur()
