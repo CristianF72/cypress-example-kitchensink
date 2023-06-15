@@ -1,20 +1,20 @@
 import { slowCypressDown } from 'cypress-slow-down'
 // slowCypressDown() // slows down each command by 500ms
 
-describe('lambdatest', () => {
+describe('date-picker', () => {
   beforeEach(() => {
-    cy.visit('https://www.lambdatest.com/selenium-playground/simple-form-demo');
+    cy.visit('https://www.lambdatest.com/selenium-playground/bootstrap-date-picker-demo');
     cy.viewport(1500,1000);
   })
   Cypress.on('uncaught:exception', (err, runnable) => {
     return false;
   })
 
-  it('Single Input Field test', () => {
+  it('Data Range Picker', () => {
     const message = 'Wassup';
 
-    cy.get('input#user-message').should('have.attr', 'placeholder', 'Please enter your Message')
-      .click({force: true}, {scrollBehavior:'nearest'}).type(`${message}{enter}`);
+    cy.get('#birthday')
+      .click(right);
 
     cy.get('button#showInput')
       .contains('Get Checked value').click({scrollBehavior:'nearest'});

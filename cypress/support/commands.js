@@ -23,3 +23,38 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('test_alert_or_confirm_box', function(alert_type_text, alert_window_text) {
+    cy.get('div[class="row"]', { timeout: 10000 }).find('span').contains(alert_type_text).as('alert');
+    cy.get('@alert').parent().next().find('button').click();
+
+    cy.on('window:alert', (str) => {
+        expect(str).to.equal(alert_window_text);
+    });
+
+    cy.on('window:confirm', (str) => {
+        expect(str).to.equal(alert_window_text);
+        cy.get('#confirmResult').should('contain','You selected Ok');
+    });
+});
+
+Cypress.Commands.add('test_prompt_box', function(alert_type_text, alert_window_text) {
+    let stub;
+    cy.window().then(win => {
+        stub = cy.stub(win, 'prompt').returns('Io is baaaaa!');
+        cy.get('div[class="row"]', { timeout: 10000 }).find('span').contains(alert_type_text).as('alert');
+        cy.get('@alert').parent().next().find('button').click();
+        cy.wrap(stub).should(() => {expect(stub).to.have.been.calledWith(alert_window_text)});
+        cy.get('#promptResult').should('have.text', 'You entered Io is baaaaa!');
+    })
+});
+
+// Cypress.Commands.add('test_alerts', function(alerts) {
+//     alerts.forEach(alert => {
+//         cy.get('div[class="row"]', { timeout: 10000 }).find('span').contains(alert[0]).as('alert');
+//         cy.get('@alert').parent().next().find('button').click();
+//         cy.on('window:alert', (str) => {
+//             expect(str).to.equal(alert[1]);
+//         });
+//     });
+// });

@@ -42,7 +42,7 @@ context('Actions', () => {
 
   it.only('.focus() - focus on a DOM element - ANOTHER WAY', () => {
     // https://on.cypress.io/focus
-    cy.get('input[placeholder=Password]').focus()
+    cy.get('[placeholder=Password]').focus()
       .should('have.class', 'focus')
       .prev().should('have.attr', 'style', 'color: orange;')
   })
