@@ -39,12 +39,12 @@ Cypress.Commands.add('test_alert_or_confirm_box', function(alert_type_text, aler
 });
 
 Cypress.Commands.add('test_prompt_box', function(alert_type_text, alert_window_text) {
-    let stub;
+    let my_stub;
     cy.window().then(win => {
-        stub = cy.stub(win, 'prompt').returns('Io is baaaaa!');
+        my_stub = cy.stub(win, 'prompt').returns('Io is baaaaa!');
         cy.get('div[class="row"]', { timeout: 10000 }).find('span').contains(alert_type_text).as('alert');
         cy.get('@alert').parent().next().find('button').click();
-        cy.wrap(stub).should(() => {expect(stub).to.have.been.calledWith(alert_window_text)});
+        cy.wrap(my_stub).should(() => {expect(my_stub).to.have.been.calledWith(alert_window_text)});
         cy.get('#promptResult').should('have.text', 'You entered Io is baaaaa!');
     })
 });
